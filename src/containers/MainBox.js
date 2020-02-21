@@ -4,6 +4,24 @@ import { Profile, Photos, Cocktails, Pokemon} from '../components/Pages.js'
 
 class MainBox extends React.Component {
 
+  constructor(){
+    super();
+    this.state = {
+      chosenMenu: null,
+      previousClick: null,
+      activeClick: null,
+    }
+  }
+
+  chooseDetails = (choice, oldClick) => {
+
+    this.setState({
+      chosenMenu: choice,
+      previousClick: oldClick,
+      activeClick: choice
+    })
+  }
+
 
   render() {
 
@@ -13,11 +31,19 @@ class MainBox extends React.Component {
 
     */
 
-    const detailsToDisplay = <div>Hi, I'm a div!</div>
+    const detailsToDisplay = 
+      (this.state.chosenMenu=== null)?
+        <div>Nothing chosen</div> : 
+          (this.state.chosenMenu==="profile")?
+          <Profile /> : 
+          (this.state.chosenMenu==="photo")?
+            <Photos /> :
+            (this.state.chosenMenu==="cocktail")?
+            <Cocktails /> : <Pokemon /> 
 
     return (
       <div>
-        <MenuBar />
+        <MenuBar menuChooser={this.chooseDetails} previousClick={this.state.previousClick} currentClick={this.state.activeClick}/>
         {detailsToDisplay}
       </div>
     )
